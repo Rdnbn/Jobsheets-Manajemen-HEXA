@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hexapod Parameter Control</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #3b82f6, #ffffff); /* Gradasi biru ke putih */
+      font-family: 'Orbitron', sans-serif;
+      color: #1e3a8a; /* Biru navy untuk teks */
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 255, 0.2);
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1e3a8a; /* Biru navy */
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #1e3a8a; /* Biru navy */
+      font-size: 1.2rem;
+    }
+
+    .slider-value {
+      margin-left: 10px;
+      font-weight: normal;
+      color: #1e3a8a; /* Biru navy */
+      font-size: 1.1rem;
+    }
+
+    .form-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #d1d5db; /* Light gray track */
+      border-radius: 5px;
+    }
+
+    .form-range::-webkit-slider-runnable-track {
+      background: #d1d5db;
+      border-radius: 5px;
+    }
+
+    .form-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #1e3a8a; /* Biru navy thumb */
+      border-radius: 50%;
+      border: 2px solid #93c5fd; /* Soft blue outline */
+    }
+
+    .form-range::-moz-range-track {
+      background: #d1d5db;
+      border-radius: 5px;
+    }
+
+    .form-range::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #1e3a8a;
+      border-radius: 50%;
+    }
+
+    .form-check-input {
+      accent-color: #1e3a8a;
+    }
+
+    .btn-primary {
+      background-color: #3b82f6; /* Neon Blue button */
+      border-color: #3b82f6;
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #2563eb; /* Darker blue on hover */
+      border-color: #2563eb;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background-color: #dc2626; /* Red button for stop */
+      border-color: #dc2626;
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .btn-danger:hover {
+      background-color: #b91c1c; /* Darker red on hover */
+      border-color: #b91c1c;
+      cursor: pointer;
+    }
+
+    .form-check-label {
+      font-size: 1.1rem;
+      color: #1e3a8a;
+    }
+
+    .row {
+      margin-bottom: 20px;
+    }
+
+    /* For smaller screens */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+
+      .btn-primary {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="p-4">
+  <div class="container">
+    <h2>Hexapod Parameter Control</h2>
+    <form id="paramForm">
+      <div class="row g-3">
+        <!-- Slider: legCoxa -->
+        <div class="col-md-6">
+          <label for="legCoxa">legCoxa: <span class="slider-value" id="val_legCoxa">20</span></label>
+          <input type="range" min="10" max="50" step="1" name="legCoxa" value="20" class="form-range" oninput="val_legCoxa.innerText = this.value">
+        </div>
+
+        <!-- Slider: legFemur -->
+        <div class="col-md-6">
+          <label for="legFemur">legFemur: <span class="slider-value" id="val_legFemur">50</span></label>
+          <input type="range" min="30" max="80" step="1" name="legFemur" value="50" class="form-range" oninput="val_legFemur.innerText = this.value">
+        </div>
+
+        <!-- Slider: initZ -->
+        <div class="col-md-6">
+          <label for="initZ">initZ: <span class="slider-value" id="val_initZ">34</span></label>
+          <input type="range" min="10" max="100" name="initZ" value="34" class="form-range" oninput="val_initZ.innerText = this.value">
+        </div>
+
+        <!-- Slider: bodyPosZ -->
+        <div class="col-md-6">
+          <label for="bodyPosZ">bodyPosZ: <span class="slider-value" id="val_bodyPosZ">30</span></label>
+          <input type="range" min="0" max="100" step="0.5" name="bodyPosZ" value="30" class="form-range" oninput="val_bodyPosZ.innerText = this.value">
+        </div>
+
+        <!-- Slider: bodyPosX -->
+        <div class="col-md-6">
+          <label for="bodyPosX">bodyPosX: <span class="slider-value" id="val_bodyPosX">0</span></label>
+          <input type="range" min="-50" max="50" step="1" name="bodyPosX" value="0" class="form-range" oninput="val_bodyPosX.innerText = this.value">
+        </div>
+
+        <!-- Slider: bodyPosY -->
+        <div class="col-md-6">
+          <label for="bodyPosY">bodyPosY: <span class="slider-value" id="val_bodyPosY">0</span></label>
+          <input type="range" min="-50" max="50" step="1" name="bodyPosY" value="0" class="form-range" oninput="val_bodyPosY.innerText = this.value">
+        </div>
+
+        <!-- Slider: bodyRotX -->
+        <div class="col-md-6">
+          <label for="bodyRotX">bodyRotX: <span class="slider-value" id="val_bodyRotX">0</span></label>
+          <input type="range" min="-30" max="30" step="1" name="bodyRotX" value="0" class="form-range" oninput="val_bodyRotX.innerText = this.value">
+        </div>
+
+        <!-- Slider: bodyRotY -->
+        <div class="col-md-6">
+          <label for="bodyRotY">bodyRotY: <span class="slider-value" id="val_bodyRotY">0</span></label>
+          <input type="range" min="-30" max="30" step="1" name="bodyRotY" value="0" class="form-range" oninput="val_bodyRotY.innerText = this.value">
+        </div>
+
+        <!-- Slider: bodyRotZ -->
+        <div class="col-md-6">
+          <label for="bodyRotZ">bodyRotZ: <span class="slider-value" id="val_bodyRotZ">0</span></label>
+          <input type="range" min="-30" max="30" step="1" name="bodyRotZ" value="0" class="form-range" oninput="val_bodyRotZ.innerText = this.value">
+        </div>
+
+        <!-- Slider: speedX -->
+        <div class="col-md-6">
+          <label for="speedX">speedX: <span class="slider-value" id="val_speedX">0</span></label>
+          <input type="range" min="-100" max="100" step="1" name="speedX" value="0" class="form-range" oninput="val_speedX.innerText = this.value">
+        </div>
+
+        <!-- Slider: rotasi -->
+        <div class="col-md-6">
+          <label for="rotasi">rotasi: <span class="slider-value" id="val_rotasi">0</span></label>
+          <input type="range" min="-90" max="90" step="1" name="rotasi" value="0" class="form-range" oninput="val_rotasi.innerText = this.value">
+        </div>
+
+        <!-- Checkbox: gaitEnabled -->
+        <div class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" name="gaitEnabled" id="gaitEnabled" checked>
+          <label class="form-check-label" for="gaitEnabled">Gait Enabled</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-4">Kirim ke Robot</button>
+      <button type="button" id="stopBtn" class="btn btn-danger mt-4">Hentikan Gerak Robot</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to handle "Hentikan Gerak Robot"
+    document.getElementById('stopBtn').addEventListener('click', function() {
+      const sliders = document.querySelectorAll('.form-range');
+      sliders.forEach(slider => {
+        slider.disabled = true;  // Disable all sliders
+      });
+
+      // Optionally, reset all slider values
+      sliders.forEach(slider => {
+        slider.value = 0;
+        const sliderValue = document.getElementById(`val_${slider.name}`);
+        sliderValue.innerText = 0;
+      });
+
+      alert("Gerakan robot dihentikan!");
+    });
+
+    // Function to detect the "X" key press
+    document.addEventListener('keydown', function(event) {
+      if (event.key.toLowerCase() === 'x') {
+        const sliders = document.querySelectorAll('.form-range');
+        sliders.forEach(slider => {
+          slider.disabled = true;  // Disable all sliders
+        });
+
+        // Optionally, reset all slider values
+        sliders.forEach(slider => {
+          slider.value = 0;
+          const sliderValue = document.getElementById(`val_${slider.name}`);
+          sliderValue.innerText = 0;
+        });
+
+        alert("Gerakan robot dihentikan!");
+      }
+    });
+
+    document.getElementById('paramForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {};
+
+      formData.forEach((value, key) => {
+        if (key === 'gaitEnabled') {
+          data[key] = formData.get(key) === 'on';
+        } else {
+          data[key] = Number(value);
+        }
+      });
+
+      try {
+        const res = await fetch("http://192.168.X.X/data", {  // Ganti dengan IP ESP-mu
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        alert("Data terkirim: " + JSON.stringify(json));
+      } catch (err) {
+        alert("Gagal kirim data: " + err);
+      }
+    });
+  </script>
+</body>
+</html>
